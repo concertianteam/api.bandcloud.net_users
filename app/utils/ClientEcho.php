@@ -62,7 +62,8 @@ class ClientEcho
 
             $tmp ["id"] = $row ["id"];
             $tmp ["eventName"] = $row ["eventName"];
-            $tmp ["dateTime"] = $row ["dateTime"];
+            $tmp ["date"] = $row ["date"];
+            $tmp ["time"] = $row ["time"];
             $tmp ["venueName"] = $row ["venueName"];
             $tmp ["urlPhoto"] = $row ["urlPhoto"];
             $tmp ["city"] = $row ["city"];

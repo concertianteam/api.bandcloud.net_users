@@ -18,12 +18,11 @@ class DbHandler
         $this->connectionWc = null;
     }
 
-    /* -------------------------------Account----------------------------------------- */
     /* -------------------------------Events------------------------------------------ */
     public function getAllEvents($page, $results)
     {
         $offset = $page * $results;
-        $STH = $this->connection->prepare("SELECT idEvents as id, e.name as eventName, datetime as dateTime, v.name as venueName, v.urlPhoto, a.city, a.state
+        $STH = $this->connection->prepare("SELECT idEvents as id, e.name as eventName, date, time, v.name as venueName, v.urlPhoto, a.city, a.state
             FROM Events e
             INNER JOIN Venues v
             ON e.idVenue = v.idVenues
@@ -55,7 +54,7 @@ class DbHandler
     public function getMostViewedEvents($page, $results)
     {
         $offset = $page * $results;
-        $STH = $this->connection->prepare("SELECT idEvents as id, e.name as eventName, datetime as dateTime, v.name as venueName, v.urlPhoto, a.city, a.state
+        $STH = $this->connection->prepare("SELECT idEvents as id, e.name as eventName, date, time, v.name as venueName, v.urlPhoto, a.city, a.state
             FROM Events e
             INNER JOIN Venues v
             ON e.idVenue = v.idVenues
@@ -90,7 +89,7 @@ class DbHandler
     public function getCityEvents($city, $page, $results)
     {
         $offset = $page * $results;
-        $STH = $this->connection->prepare("SELECT idEvents as id, e.name as eventName, datetime as dateTime, v.name as venueName, v.urlPhoto, a.city, a.state
+        $STH = $this->connection->prepare("SELECT idEvents as id, e.name as eventName, date, time, v.name as venueName, v.urlPhoto, a.city, a.state
             FROM Events e
             INNER JOIN Venues v
             ON e.idVenue = v.idVenues
@@ -144,7 +143,7 @@ class DbHandler
 
             $event = $STH->fetchAll();
         } else {*/
-            $STH = $this->connection->prepare("SELECT idEvents as id, e.name as eventName, datetime as dateTime, v.name as venueName, v.urlPhoto, a.city, a.state
+            $STH = $this->connection->prepare("SELECT idEvents as id, e.name as eventName, date, time, v.name as venueName, v.urlPhoto, a.city, a.state
             FROM Events e
             INNER JOIN Venues v
             ON e.idVenue = v.idVenues
