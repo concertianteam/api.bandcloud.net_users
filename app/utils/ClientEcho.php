@@ -66,9 +66,10 @@ class ClientEcho
             $tmp ["time"] = $row ["time"];
             $tmp ["venueName"] = $row ["venueName"];
             $tmp ["urlPhoto"] = $row ["urlPhoto"];
+            $tmp["address"] = $row['address_1'];
             $tmp ["city"] = $row ["city"];
             $tmp ["state"] = $row ["state"];
-            //$tmp ["visible"] = $row ["visible"];
+            $tmp ["zip"] = $row ["zip"];
 
             $response ['events'] [] = $tmp;
         }

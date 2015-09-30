@@ -22,7 +22,7 @@ class DbHandler
     public function getAllEvents($page, $results)
     {
         $offset = $page * $results;
-        $STH = $this->connection->prepare("SELECT idEvents as id, e.name as eventName, date, time, v.name as venueName, v.urlPhoto, a.city, a.state
+        $STH = $this->connection->prepare("SELECT idEvents as id, e.name as eventName, date, time, v.name as venueName, v.urlPhoto, a.address_1, a.city, a.state, a.zip
             FROM Events e
             INNER JOIN Venues v
             ON e.idVenue = v.idVenues
@@ -55,7 +55,7 @@ class DbHandler
     public function getMostViewedEvents($page, $results)
     {
         $offset = $page * $results;
-        $STH = $this->connection->prepare("SELECT idEvents as id, e.name as eventName, date, time, v.name as venueName, v.urlPhoto, a.city, a.state
+        $STH = $this->connection->prepare("SELECT idEvents as id, e.name as eventName, date, time, v.name as venueName, v.urlPhoto, a.address_1, a.city, a.state, a.zip
             FROM Events e
             INNER JOIN Venues v
             ON e.idVenue = v.idVenues
@@ -90,7 +90,7 @@ class DbHandler
     public function getCityEvents($city, $page, $results)
     {
         $offset = $page * $results;
-        $STH = $this->connection->prepare("SELECT idEvents as id, e.name as eventName, date, time, v.name as venueName, v.urlPhoto, a.city, a.state
+        $STH = $this->connection->prepare("SELECT idEvents as id, e.name as eventName, date, time, v.name as venueName, v.urlPhoto, a.address_1, a.city, a.state, a.zip
             FROM Events e
             INNER JOIN Venues v
             ON e.idVenue = v.idVenues
@@ -144,17 +144,17 @@ class DbHandler
 
             $event = $STH->fetchAll();
         } else {*/
-            $STH = $this->connection->prepare("SELECT idEvents as id, e.name as eventName, date, time, v.name as venueName, v.urlPhoto, a.city, a.state
+        $STH = $this->connection->prepare("SELECT idEvents as id, e.name as eventName, date, time, v.name as venueName, v.urlPhoto, a.address_1, a.city, a.state, a.zip
             FROM Events e
             INNER JOIN Venues v
             ON e.idVenue = v.idVenues
             INNER JOIN Address a
             ON a.idAddress = v.idAddress
             WHERE e.idEvents = :idEvent");
-            $STH->bindParam(':idEvent', $idEvent);
-            $STH->execute();
+        $STH->bindParam(':idEvent', $idEvent);
+        $STH->execute();
 
-            $event = $STH->fetchAll();
+        $event = $STH->fetchAll();
         //}
         return $event;
     }
