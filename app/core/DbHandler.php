@@ -29,6 +29,7 @@ class DbHandler
             INNER JOIN Address a
             ON a.idAddress = v.idAddress
             WHERE visible = 1
+            ORDER BY date
             LIMIT :results
             OFFSET :page;");
         $STH->bindValue(':results', $results);
