@@ -47,7 +47,6 @@ class ClientEcho
 
             ClientEcho::echoResponse(OK, $response);
         } else {
-            echo count($result);
             $response ["success"] = FALSE;
             $response ["message"] = "The requested resource doesn't exists";
             ClientEcho::echoResponse(NOT_FOUND, $response);
@@ -61,6 +60,7 @@ class ClientEcho
             $tmp = array();
 
             $tmp ["id"] = $row ["id"];
+            $tmp ["venueId"] = $row ["venueId"];
             $tmp ["eventName"] = $row ["eventName"];
             $tmp ["date"] = $row ["date"];
             $tmp ["time"] = $row ["time"];

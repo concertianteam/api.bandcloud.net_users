@@ -60,6 +60,32 @@ $app->post('/events', function () use ($app) {
 });
 
 /**
+ * Listing all venue events
+ * url - /events
+ * method - GET
+ */
+$app->post('/events/venue', function () use ($app) {
+    $validation = new Validation ();
+    $validation->verifyRequiredParams(array(
+        'idVenue',
+        'page',
+        'results'
+    ));
+    // reading post params
+    $idVenue = $app->request->post('idVenue');
+    $page = $app->request->post('page');
+    $results = $app->request->post('results');
+
+    $dbHandler = new DbHandler ();
+
+    // fetching all events
+    $result = $dbHandler->getAllVenueEvents($idVenue, $page, $results);
+
+    ClientEcho::buildResponse($result, EVENT);
+});
+
+
+/**
  * Listing all most viewed events
  * url - /events
  * method - GET

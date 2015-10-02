@@ -22,7 +22,7 @@ class DbHandler
     public function getAllEvents($page, $results)
     {
         $offset = $page * $results;
-        $STH = $this->connection->prepare("SELECT idEvents as id, e.name as eventName, date, time, v.name as venueName, v.urlPhoto, a.address_1, a.city, a.state, a.zip
+        $STH = $this->connection->prepare("SELECT idEvents as id, v.idVenues as venueId, e.name as eventName, date, time, v.name as venueName, v.urlPhoto, a.address_1, a.city, a.state, a.zip
             FROM Events e
             INNER JOIN Venues v
             ON e.idVenue = v.idVenues
@@ -51,6 +51,40 @@ class DbHandler
         return $events;
     }
 
+    //getAllVenueEvents($idEvent, $page, $results);
+    public function getAllVenueEvents($idVenue, $page, $results)
+    {
+        $offset = $page * $results;
+        $STH = $this->connection->prepare("SELECT idEvents as id, v.idVenues as venueId, e.name as eventName, date, time, v.name as venueName, v.urlPhoto, a.address_1, a.city, a.state, a.zip
+            FROM Events e
+            INNER JOIN Venues v
+            ON e.idVenue = v.idVenues
+            INNER JOIN Address a
+            ON a.idAddress = v.idAddress
+            WHERE visible = 1
+            AND v.idVenues = :idVenue
+            ORDER BY date
+            LIMIT :results
+            OFFSET :page;");
+        $STH->bindValue(':idVenue', $idVenue);
+        $STH->bindValue(':results', $results);
+        $STH->bindValue(':page', $offset);
+        $STH->execute();
+        $events = $STH->fetchAll();
+
+        /* doèasné dáta z webcravlera
+        $STH = $this->connectionWc->prepare("Select CONCAT('w', idEvent) as id, eventName, dateTime, venueName, urlPhoto,
+         city, state FROM Concerts  LIMIT :results OFFSET :page;");
+        $STH->bindParam(':results', $results);
+        $STH->bindParam(':page', $offset);
+        $STH->execute();
+        $wc = $STH->fetchAll();
+        foreach ($wc as $row) {
+            $events[] = $row;
+        }*/
+
+        return $events;
+    }
 
     public function getMostViewedEvents($page, $results)
     {
