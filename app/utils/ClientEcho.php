@@ -65,8 +65,9 @@ class ClientEcho
             $tmp ["date"] = $row ["date"];
             $tmp ["time"] = $row ["time"];
             $tmp ["venueName"] = $row ["venueName"];
+            $tmp ["venueEmail"] = $row["venueEmail"];
             $tmp ["urlPhoto"] = $row ["urlPhoto"];
-            $tmp["address"] = $row['address_1'];
+            $tmp ["address"] = $row['address_1'];
             $tmp ["city"] = $row ["city"];
             $tmp ["state"] = $row ["state"];
             $tmp ["zip"] = $row ["zip"];
