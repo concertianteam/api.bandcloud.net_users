@@ -38,7 +38,7 @@ class DbHandler
         $STH->execute();
         $events = $STH->fetchAll();
 
-        /* doèasné dáta z webcravlera
+        /* doï¿½asnï¿½ dï¿½ta z webcravlera
         $STH = $this->connectionWc->prepare("Select CONCAT('w', idEvent) as id, eventName, dateTime, venueName, urlPhoto,
          city, state FROM Concerts  LIMIT :results OFFSET :page;");
         $STH->bindParam(':results', $results);
@@ -56,7 +56,7 @@ class DbHandler
     public function getAllVenueEvents($idVenue, $page, $results)
     {
         $offset = $page * $results;
-        $STH = $this->connection->prepare("SELECT idEvents as id, v.idVenues as venueId, e.name as eventName, date, time,
+        $STH = $this->connection->prepare("SELECT idEvents as id, v.idVenues as venueId, e.name as eventName, date, time, visible,
             v.name as venueName, v.email as venueEmail, v.urlPhoto, a.address_1, a.city, a.state, a.zip
             FROM Events e
             INNER JOIN Venues v
@@ -74,7 +74,7 @@ class DbHandler
         $STH->execute();
         $events = $STH->fetchAll();
 
-        /* doèasné dáta z webcravlera
+        /* doï¿½asnï¿½ dï¿½ta z webcravlera
         $STH = $this->connectionWc->prepare("Select CONCAT('w', idEvent) as id, eventName, dateTime, venueName, urlPhoto,
          city, state FROM Concerts  LIMIT :results OFFSET :page;");
         $STH->bindParam(':results', $results);
@@ -107,7 +107,7 @@ class DbHandler
         $STH->execute();
         $events = $STH->fetchAll();
 
-        /* doèasné dáta z webcravlera
+        /* doï¿½asnï¿½ dï¿½ta z webcravlera
         $STH = $this->connectionWc->prepare("Select CONCAT('w', idEvent) as id, eventName, dateTime, venueName, urlPhoto, city, state
             FROM Concerts c
             ORDER BY (SELECT COUNT(*) FROM ViewCounter WHERE c.idEvent = idEvent) desc
@@ -144,7 +144,7 @@ class DbHandler
         $STH->execute();
         $events = $STH->fetchAll();
 
-        /* doèasné dáta z webcravlera
+        /* doï¿½asnï¿½ dï¿½ta z webcravlera
         $STH = $this->connectionWc->prepare("Select CONCAT('w', idEvent) as id, eventName, dateTime, venueName, urlPhoto, city, state
             FROM Concerts c
             WHERE LOWER(city) = LOWER(:city)
