@@ -22,7 +22,7 @@ class DbHandler
     public function getAllEvents($page, $results)
     {
         $offset = $page * $results;
-        $STH = $this->connection->prepare("SELECT idEvents as id, v.idVenues as venueId, e.name as eventName, date, time,
+        $STH = $this->connection->prepare("SELECT idEvents as id, v.idVenues as venueId, e.name as eventName, date, time, e.visible,
             v.name as venueName,  v.email as venueEmail,v.urlPhoto, a.address_1, a.city, a.state, a.zip
             FROM Events e
             INNER JOIN Venues v
@@ -38,25 +38,13 @@ class DbHandler
         $STH->execute();
         $events = $STH->fetchAll();
 
-        /* do�asn� d�ta z webcravlera
-        $STH = $this->connectionWc->prepare("Select CONCAT('w', idEvent) as id, eventName, dateTime, venueName, urlPhoto,
-         city, state FROM Concerts  LIMIT :results OFFSET :page;");
-        $STH->bindParam(':results', $results);
-        $STH->bindParam(':page', $offset);
-        $STH->execute();
-        $wc = $STH->fetchAll();
-        foreach ($wc as $row) {
-            $events[] = $row;
-        }*/
-
         return $events;
     }
 
-    //getAllVenueEvents($idEvent, $page, $results);
     public function getAllVenueEvents($idVenue, $page, $results)
     {
         $offset = $page * $results;
-        $STH = $this->connection->prepare("SELECT idEvents as id, v.idVenues as venueId, e.name as eventName, date, time, visible,
+        $STH = $this->connection->prepare("SELECT idEvents as id, v.idVenues as venueId, e.name as eventName, date, time, e.visible,
             v.name as venueName, v.email as venueEmail, v.urlPhoto, a.address_1, a.city, a.state, a.zip
             FROM Events e
             INNER JOIN Venues v
@@ -74,24 +62,13 @@ class DbHandler
         $STH->execute();
         $events = $STH->fetchAll();
 
-        /* do�asn� d�ta z webcravlera
-        $STH = $this->connectionWc->prepare("Select CONCAT('w', idEvent) as id, eventName, dateTime, venueName, urlPhoto,
-         city, state FROM Concerts  LIMIT :results OFFSET :page;");
-        $STH->bindParam(':results', $results);
-        $STH->bindParam(':page', $offset);
-        $STH->execute();
-        $wc = $STH->fetchAll();
-        foreach ($wc as $row) {
-            $events[] = $row;
-        }*/
-
         return $events;
     }
 
     public function getMostViewedEvents($page, $results)
     {
         $offset = $page * $results;
-        $STH = $this->connection->prepare("SELECT idEvents as id, e.name as eventName, date, time, v.name as venueName,
+        $STH = $this->connection->prepare("SELECT idEvents as id, e.name as eventName, date, time,e.visible, v.name as venueName,
             v.email as venueEmail, v.urlPhoto, a.address_1, a.city, a.state, a.zip
             FROM Events e
             INNER JOIN Venues v
@@ -107,27 +84,13 @@ class DbHandler
         $STH->execute();
         $events = $STH->fetchAll();
 
-        /* do�asn� d�ta z webcravlera
-        $STH = $this->connectionWc->prepare("Select CONCAT('w', idEvent) as id, eventName, dateTime, venueName, urlPhoto, city, state
-            FROM Concerts c
-            ORDER BY (SELECT COUNT(*) FROM ViewCounter WHERE c.idEvent = idEvent) desc
-            LIMIT :results
-            OFFSET :page;");
-        $STH->bindParam(':results', $results);
-        $STH->bindParam(':page', $offset);
-        $STH->execute();
-        $wc = $STH->fetchAll();
-        foreach ($wc as $row) {
-            $events[] = $row;
-        }*/
-
         return $events;
     }
 
     public function getCityEvents($city, $page, $results)
     {
         $offset = $page * $results;
-        $STH = $this->connection->prepare("SELECT idEvents as id, v.idVenues as venueId, e.name as eventName, date, time,
+        $STH = $this->connection->prepare("SELECT idEvents as id, v.idVenues as venueId, e.name as eventName, date, time,e.visible,
             v.name as venueName,  v.email as venueEmail, v.urlPhoto, a.address_1, a.city, a.state, a.zip
             FROM Events e
             INNER JOIN Venues v
@@ -144,21 +107,6 @@ class DbHandler
         $STH->execute();
         $events = $STH->fetchAll();
 
-        /* do�asn� d�ta z webcravlera
-        $STH = $this->connectionWc->prepare("Select CONCAT('w', idEvent) as id, eventName, dateTime, venueName, urlPhoto, city, state
-            FROM Concerts c
-            WHERE LOWER(city) = LOWER(:city)
-            LIMIT :results
-            OFFSET :page;");
-        $STH->bindValue(':city', $city);
-        $STH->bindParam(':results', $results);
-        $STH->bindParam(':page', $offset);
-        $STH->execute();
-        $wc = $STH->fetchAll();
-        foreach ($wc as $row) {
-            $events[] = $row;
-        }*/
-
         return $events;
     }
 
@@ -172,17 +120,7 @@ class DbHandler
 
     public function getSingleEvent($idEvent)
     {
-        /*if ($idEvent[0] == 'w') {
-            $STH = $this->connectionWc->prepare("Select CONCAT('w', idEvent) as id, eventName, dateTime, venueName, urlPhoto,
-              city, state FROM Concerts
-            WHERE idEvent = :idEvent");
-            $id = trim($idEvent, 'w');
-            $STH->bindParam(':idEvent', $id);
-            $STH->execute();
-
-            $event = $STH->fetchAll();
-        } else {*/
-        $STH = $this->connection->prepare("SELECT idEvents as id, e.name as eventName, date, time, v.name as venueName,
+        $STH = $this->connection->prepare("SELECT idEvents as id, e.name as eventName, date, time, v.name as venueName,e.visible,
             v.email as venueEmail, v.urlPhoto, a.address_1, a.city, a.state, a.zip
             FROM Events e
             INNER JOIN Venues v
@@ -197,5 +135,23 @@ class DbHandler
         //}
         return $event;
     }
-    /* -------------------------------Events------------------------------------------ */
+
+    /* -------------------------------VENUES------------------------------------------ */
+    public function getAllVenues($page, $results)
+    {
+        $offset = $page * $results;
+        $STH = $this->connection->prepare("SELECT idVenues, name, email, urlPhoto, state, city, zip, address_1, address_2
+            FROM Venues
+            INNER JOIN Address
+            ON Venues.idAddress = Address.idAddress;
+            ORDER BY name
+            LIMIT :results
+            OFFSET :page;");
+        $STH->bindValue(':results', $results);
+        $STH->bindValue(':page', $offset);
+        $STH->execute();
+        $venues = $STH->fetchAll();
+
+        return $venues;
+    }
 }

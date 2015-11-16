@@ -161,4 +161,30 @@ $app->get('/events/:id', function ($idEvent) {
     $result = $dbHandler->getSingleEvent($idEvent);
     ClientEcho::buildResponse($result, EVENT);
 });
+
+/*--------------VENUES METHODS---------------*/
+
+/**
+ * Listing all venues
+ * url - /venues
+ * method - POST
+ */
+$app->post('/venues', function () use ($app) {
+    $validation = new Validation ();
+    $validation->verifyRequiredParams(array(
+        'page',
+        'results'
+    ));
+
+    // reading post params
+    $page = $app->request->post('page');
+    $results = $app->request->post('results');
+
+    $dbHandler = new DbHandler ();
+
+    // fetching all venues
+    $result = $dbHandler->getAllVenues($page, $results);
+
+    ClientEcho::buildResponse($result, EVENT);
+});
 $app->run();
