@@ -185,6 +185,6 @@ $app->post('/venues', function () use ($app) {
     // fetching all venues
     $result = $dbHandler->getAllVenues($page, $results);
 
-    ClientEcho::buildResponse($result, EVENT);
+    ClientEcho::buildResponse($result, VENUE);
 });
 $app->run();

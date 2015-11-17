@@ -90,19 +90,19 @@ class ClientEcho
 
     private static function buildVenuesResponse($result)
     {
+        $response ["success"] = TRUE;
         foreach ($result as $row) {
             $tmp = array();
 
             $tmp ["id"] = $row ["idVenues"];
-            $tmp ["name"] = $row ["name"];
+            $tmp ["venueName"] = $row ["name"];
             $tmp ["email"] = $row ["email"];
             $tmp ["urlPhoto"] = $row ["urlPhoto"];
             $tmp ["state"] = $row ["state"];
             $tmp ["city"] = $row ["city"];
             $tmp ["zip"] = $row ["zip"];
-            $tmp ["address_1"] = $row ["address_1"];
-            $tmp ["address_2"] = $row ["address_2"];
-            $tmp ["idAccount"] = $row ["idAccount"];
+            $tmp ["addressFirst"] = $row ["address_1"];
+            $tmp ["addressSecond"] = $row ["address_2"];
 
             $response ['venues'] [] = $tmp;
 

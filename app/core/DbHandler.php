@@ -143,7 +143,7 @@ class DbHandler
         $STH = $this->connection->prepare("SELECT idVenues, name, email, urlPhoto, state, city, zip, address_1, address_2
             FROM Venues
             INNER JOIN Address
-            ON Venues.idAddress = Address.idAddress;
+            ON Venues.idAddress = Address.idAddress
             ORDER BY name
             LIMIT :results
             OFFSET :page;");
