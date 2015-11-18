@@ -30,6 +30,7 @@ class DbHandler
             INNER JOIN Address a
             ON a.idAddress = v.idAddress
             WHERE visible = 1
+            AND date >= CURDATE()
             ORDER BY date
             LIMIT :results
             OFFSET :page;");
@@ -53,6 +54,7 @@ class DbHandler
             ON a.idAddress = v.idAddress
             WHERE visible = 1
             AND v.idVenues = :idVenue
+            AND date >= CURDATE()
             ORDER BY date
             LIMIT :results
             OFFSET :page;");
@@ -99,6 +101,8 @@ class DbHandler
             ON a.idAddress = v.idAddress
             WHERE visible = 1
             AND LOWER(a.city) = LOWER(:city)
+            AND date >= CURDATE()
+            ORDER BY date
             LIMIT :results
             OFFSET :page;");
         $STH->bindValue(':city', $city);
