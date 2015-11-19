@@ -19,6 +19,7 @@ require_once(APP_ROOT . "/app/core/HttpRequestsHandler.php");
 require_once(APP_ROOT . "/app/utils/ClientEcho.php");
 require_once(APP_ROOT . "/app/utils/Validation.php");
 require_once(APP_ROOT . "/app/utils/PassHash.php");
+require_once(APP_ROOT . "/app/utils/MonthNames_en.php");
 require_once(APP_ROOT . "/config/statusCodes.php");
 require_once(APP_ROOT . "/config/responseTypes.php");
 require_once(APP_ROOT . "/config/constants.php");
@@ -187,4 +188,18 @@ $app->post('/venues', function () use ($app) {
 
     ClientEcho::buildResponse($result, VENUE);
 });
+
+/**
+ * Listing single venue
+ * url - /venues/:id
+ * method - GET
+ */
+$app->get('/venues/:id', function ($idVenue) {
+    $dbHandler = new DbHandler ();
+
+    // fetching single venue
+    $result = $dbHandler->getSingleVenue($idVenue);
+    ClientEcho::buildResponse($result, VENUE);
+});
+
 $app->run();

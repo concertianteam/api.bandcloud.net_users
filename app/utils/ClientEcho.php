@@ -63,6 +63,7 @@ class ClientEcho
             $tmp ["venueId"] = $row ["venueId"];
             $tmp ["eventName"] = $row ["eventName"];
             $tmp ["date"] = $row ["date"];
+            $tmp ["stringDate"] = ClientEcho::formatDate($row["date"]);
             $tmp ["time"] = $row ["time"];
             $tmp ["visible"] = $row ["visible"];
             $tmp ["venueName"] = $row ["venueName"];
@@ -108,5 +109,42 @@ class ClientEcho
 
         }
         return $response;
+    }
+
+    private static function formatDate($date)
+    {
+        $dateParts = explode("-", $date);
+        return $dateParts[0] . "-" . ClientEcho::monthNumberToName($dateParts[1]) . "-" . $dateParts[2];
+    }
+
+    private static function monthNumberToName($month)
+    {
+        switch ($month) {
+            case 1:
+                return JANUARY;
+            case 2:
+                return FEBRUARY;
+            case 3:
+                return MARCH;
+            case 4:
+                return APRIL;
+            case 5:
+                return MAY;
+            case 6:
+                return JUNE;
+            case 7:
+                return JULY;
+            case 8:
+                return AUGUST;
+            case 9:
+                return SEPTEMBER;
+            case 10:
+                return OCTOBER;
+            case 11:
+                return NOVEMBER;
+            case 12:
+                return DECEMBER;
+
+        }
     }
 }

@@ -158,4 +158,18 @@ class DbHandler
 
         return $venues;
     }
+
+    public function getSingleVenue($idVenue)
+    {
+        $STH = $this->connection->prepare("SELECT idVenues, name, email, urlPhoto, state, city, zip, address_1, address_2
+                FROM Venues INNER JOIN Address
+				ON Venues.idAddress = Address.idAddress
+				WHERE idVenues = :idVenue;");
+        $STH->bindParam(':idVenue', $idVenue);
+        $STH->execute();
+
+        $venue = $STH->fetchAll();
+
+        return $venue;
+    }
 }
