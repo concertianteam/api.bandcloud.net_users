@@ -172,4 +172,26 @@ class DbHandler
 
         return $venue;
     }
+
+    //WHERE LOWER(name) like LOWER('%Maj%')
+    public function getSearchedVenues($name, $page, $results)
+    {
+        $offset = $page * $results;
+        $STH = $this->connection->prepare("SELECT idVenues, name, email, urlPhoto, state, city, zip, address_1, address_2
+            FROM Venues
+            INNER JOIN Address
+            ON Venues.idAddress = Address.idAddress
+            WHERE LOWER(name) like LOWER(:namelike)
+            ORDER BY name
+            LIMIT :results
+            OFFSET :page;");
+        $STH->bindValue(':namelike', '%' . $name . "%");
+        $STH->bindValue(':results', $results);
+        $STH->bindValue(':page', $offset);
+        $STH->execute();
+        $venues = $STH->fetchAll();
+
+        return $venues;
+
+    }
 }

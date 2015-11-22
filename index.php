@@ -202,4 +202,30 @@ $app->get('/venues/:id', function ($idVenue) {
     ClientEcho::buildResponse($result, VENUE);
 });
 
+/**
+ * Search venues by name
+ * url - /venues/name
+ * method - POST
+ */
+$app->post('/venues/name', function () use ($app) {
+    $validation = new Validation ();
+    $validation->verifyRequiredParams(array(
+        'name',
+        'page',
+        'results'
+    ));
+
+    // reading post params
+    $name = $app->request->post('name');
+    $page = $app->request->post('page');
+    $results = $app->request->post('results');
+
+    $dbHandler = new DbHandler ();
+
+    // fetching all events
+    $result = $dbHandler->getSearchedVenues($name, $page, $results);
+
+    ClientEcho::buildResponse($result, VENUE);
+});
+
 $app->run();
