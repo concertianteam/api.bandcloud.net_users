@@ -31,7 +31,7 @@ class DbHandler
             ON a.idAddress = v.idAddress
             WHERE visible = 1
             AND date >= CURDATE()
-            ORDER BY date
+            ORDER BY date, time
             LIMIT :results
             OFFSET :page;");
         $STH->bindValue(':results', $results);
@@ -55,7 +55,7 @@ class DbHandler
             WHERE visible = 1
             AND v.idVenues = :idVenue
             AND date >= CURDATE()
-            ORDER BY date
+            ORDER BY date, time
             LIMIT :results
             OFFSET :page;");
         $STH->bindValue(':idVenue', $idVenue);
@@ -102,7 +102,7 @@ class DbHandler
             WHERE visible = 1
             AND LOWER(a.city) = LOWER(:city)
             AND date >= CURDATE()
-            ORDER BY date
+            ORDER BY date, time
             LIMIT :results
             OFFSET :page;");
         $STH->bindValue(':city', $city);
