@@ -194,4 +194,14 @@ class DbHandler
         return $venues;
 
     }
+
+    /*------------------------CARDS-------------------------------*/
+    public function getAllCards()
+    {
+        $STH = $this->connection->prepare("SELECT idCard, name, urlImage FROM Cards;");
+        $STH->execute();
+
+        $cards = $STH->fetchAll();
+        return $cards;
+    }
 }

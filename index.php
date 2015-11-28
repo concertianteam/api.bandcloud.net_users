@@ -228,4 +228,22 @@ $app->post('/venues/name', function () use ($app) {
     ClientEcho::buildResponse($result, VENUE);
 });
 
+/*--------------Cards Methods----------*/
+
+/**
+ * Get Cards
+ * url - /cards
+ * method - GET
+ */
+
+$app->get('/cards', function () use ($app) {
+    $dbHandler = new DbHandler();
+
+    $result = $dbHandler->getAllCards();
+
+    ClientEcho::buildResponse($result, CARDS);
+
+
+});
+
 $app->run();

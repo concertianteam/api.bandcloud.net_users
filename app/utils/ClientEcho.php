@@ -39,7 +39,10 @@ class ClientEcho
                 case CITIES:
                     $response = ClientEcho::buildCitiesResponse($result);
                     break;
-                default :
+                case CARDS:
+                    $response = ClientEcho::buildCardsResponse($result);
+                    break;
+                default:
                     $response ["success"] = FALSE;
                     $response ["message"] = "Oops! An error occurred!";
                     break;
@@ -147,4 +150,22 @@ class ClientEcho
 
         }
     }
+
+    private static function buildCardsResponse($result)
+    {
+        $response ["success"] = TRUE;
+        foreach ($result as $row) {
+            $tmp = array();
+
+            $tmp ["id"] = $row ["idCard"];
+            $tmp ["name"] = $row ["name"];
+            $tmp ["urlImage"] = $row ["urlImage"];
+
+
+            $response ['cards'] [] = $tmp;
+
+        }
+        return $response;
+    }
+
 }
