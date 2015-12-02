@@ -161,6 +161,10 @@ class ClientEcho
             $tmp ["name"] = $row ["name"];
             $tmp ["urlImage"] = $row ["urlImage"];
 
+            $dbHandler = new DbHandler();
+
+            $count = $dbHandler->getCardEventsCount($row ["name"]);
+            $tmp["count"] = $count[0]["count"];
 
             $response ['cards'] [] = $tmp;
 

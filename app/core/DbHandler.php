@@ -204,4 +204,23 @@ class DbHandler
         $cards = $STH->fetchAll();
         return $cards;
     }
+
+    public function getCardEventsCount($name)
+    {
+        $STH = $this->connection->prepare("SELECT COUNT(*) as count
+            FROM Events e
+            INNER JOIN Venues v
+            ON e.idVenue = v.idVenues
+            INNER JOIN Address a
+            ON a.idAddress = v.idAddress
+            WHERE visible = 1
+            AND LOWER(a.city) = LOWER(:name)
+            AND date >= CURDATE();");
+
+        $STH->bindValue(':name', $name);
+        $STH->execute();
+
+        $count = $STH->fetchAll();
+        return $count;
+    }
 }
