@@ -9,7 +9,7 @@ class DbHandler
     {
         // open database connection
         $this->connection = Database::getInstance();
-        $this->connectionWc = Database::getWCInstance();
+        //$this->connectionWc = Database::getWCInstance();
     }
 
     function __destruct()
@@ -22,7 +22,7 @@ class DbHandler
     public function getAllEvents($page, $results)
     {
         $offset = $page * $results;
-        $STH = $this->connection->prepare("SELECT idEvents as id, v.idVenues as venueId, e.name as eventName, date, time, e.visible,
+        $STH = $this->connection->prepare("SELECT idEvents as id, v.idVenues as venueId, e.name as eventName, date, time, e.visible, e.details, e.entry,
             v.name as venueName,  v.email as venueEmail,v.urlPhoto, a.address_1, a.city, a.state, a.zip
             FROM Events e
             INNER JOIN Venues v
@@ -45,7 +45,7 @@ class DbHandler
     public function getAllVenueEvents($idVenue, $page, $results)
     {
         $offset = $page * $results;
-        $STH = $this->connection->prepare("SELECT idEvents as id, v.idVenues as venueId, e.name as eventName, date, time, e.visible,
+        $STH = $this->connection->prepare("SELECT idEvents as id, v.idVenues as venueId, e.name as eventName, date, time, e.visible, e.details, e.entry,
             v.name as venueName, v.email as venueEmail, v.urlPhoto, a.address_1, a.city, a.state, a.zip
             FROM Events e
             INNER JOIN Venues v
@@ -70,7 +70,7 @@ class DbHandler
     public function getMostViewedEvents($page, $results)
     {
         $offset = $page * $results;
-        $STH = $this->connection->prepare("SELECT idEvents as id, e.name as eventName, date, time,e.visible, v.name as venueName,
+        $STH = $this->connection->prepare("SELECT idEvents as id, e.name as eventName, date, time,e.visible, e.details, e.entry, v.name as venueName,
             v.email as venueEmail, v.urlPhoto, a.address_1, a.city, a.state, a.zip
             FROM Events e
             INNER JOIN Venues v
@@ -92,7 +92,7 @@ class DbHandler
     public function getCityEvents($city, $page, $results)
     {
         $offset = $page * $results;
-        $STH = $this->connection->prepare("SELECT idEvents as id, v.idVenues as venueId, e.name as eventName, date, time,e.visible,
+        $STH = $this->connection->prepare("SELECT idEvents as id, v.idVenues as venueId, e.name as eventName, date, time,e.visible, e.details, e.entry,
             v.name as venueName,  v.email as venueEmail, v.urlPhoto, a.address_1, a.city, a.state, a.zip
             FROM Events e
             INNER JOIN Venues v
@@ -124,7 +124,7 @@ class DbHandler
 
     public function getSingleEvent($idEvent)
     {
-        $STH = $this->connection->prepare("SELECT idEvents as id, e.name as eventName, date, time, v.name as venueName,e.visible,
+        $STH = $this->connection->prepare("SELECT idEvents as id, e.name as eventName, date, time, v.name as venueName,e.visible, e.details, e.entry,
             v.email as venueEmail, v.urlPhoto, a.address_1, a.city, a.state, a.zip
             FROM Events e
             INNER JOIN Venues v
@@ -222,5 +222,17 @@ class DbHandler
 
         $count = $STH->fetchAll();
         return $count;
+    }
+
+    public function getRegisteredVenues()
+    {
+        $STH = $this->connection->prepare("SELECT COUNT(*) as count
+            FROM Venues
+            WHERE idAccount IS NOT NULL;");
+
+        $STH->execute();
+
+        $count = $STH->fetchAll();
+        return $count[0][0];
     }
 }

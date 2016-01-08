@@ -7,7 +7,7 @@
 class Database
 {
     private static $connection = NULL;
-    private static $connectionWc = NULL;
+    /*private static $connectionWc = NULL;*/
 
     /**
      * private constructor
@@ -41,7 +41,7 @@ class Database
      * Establishing database connection
      * @return database connection handler
      */
-    public static function getWCInstance()
+   /* public static function getWCInstance()
     {
         $dbData = Config::load('database');
 
@@ -56,5 +56,5 @@ class Database
         }
 
         return self::$connectionWc;
-    }
+    }*/
 }

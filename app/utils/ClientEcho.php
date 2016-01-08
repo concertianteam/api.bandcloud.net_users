@@ -68,6 +68,8 @@ class ClientEcho
             $tmp ["date"] = $row ["date"];
             $tmp ["stringDate"] = ClientEcho::formatDate($row["date"]);
             $tmp ["time"] = $row ["time"];
+            $tmp ["detail"] = $row ["details"];
+            $tmp ["entry"] = $row ["entry"];
             $tmp ["visible"] = $row ["visible"];
             $tmp ["venueName"] = $row ["venueName"];
             $tmp ["venueEmail"] = $row["venueEmail"];

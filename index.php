@@ -2,7 +2,7 @@
 mb_internal_encoding("UTF-8");
 
 header("Access-Control-Allow-Origin: *"); // docasne!!
-header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header("Access-Control-Allow-Methods: GET,PUT,POST,DELETE,OPTIONS");
 header("Access-Control-Allow-Credentials: true");
 header("Access-Control-Max-Age: 86400");
@@ -244,6 +244,33 @@ $app->get('/cards', function () use ($app) {
     ClientEcho::buildResponse($result, CARDS);
 
 
+});
+
+$app->options('/(:name+)', function () use ($app) {
+    echo 'true';
+});
+
+
+$app->options('/events/(:name+)', function () use ($app) {
+    echo 'true';
+});
+
+//stats
+
+/**
+ * Count of registered venues
+ * url - /stats
+ * method - GET
+ */
+$app->get('/stats', function () use ($app) {
+    $dbHandler = new DbHandler ();
+
+    // fetching all events
+    $result = $dbHandler->getRegisteredVenues();
+
+    $response ["success"] = TRUE;
+    $response ['count'] = $result;
+    ClientEcho::echoResponse(OK, $response);
 });
 
 $app->run();
