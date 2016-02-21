@@ -23,6 +23,9 @@ require_once(APP_ROOT . "/app/utils/MonthNames_en.php");
 require_once(APP_ROOT . "/config/statusCodes.php");
 require_once(APP_ROOT . "/config/responseTypes.php");
 require_once(APP_ROOT . "/config/constants.php");
+require_once(APP_ROOT . "/app/core/TicketsSoapClient.php");
+require_once(APP_ROOT . "/app/core/TicketsSoapHandler.php");
+require_once(APP_ROOT . "/config/soap.php");
 require(APP_ROOT . "/libs/Slim/Slim.php");
 
 \Slim\Slim::registerAutoloader();

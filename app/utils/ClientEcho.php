@@ -70,6 +70,7 @@ class ClientEcho
             $tmp ["time"] = $row ["time"];
             $tmp ["detail"] = $row ["details"];
             $tmp ["entry"] = $row ["entry"];
+            $tmp ["imgUrl"] = $row ["imgUrl"];
             $tmp ["visible"] = $row ["visible"];
             $tmp ["venueName"] = $row ["venueName"];
             $tmp ["venueEmail"] = $row["venueEmail"];
@@ -78,6 +79,9 @@ class ClientEcho
             $tmp ["city"] = $row ["city"];
             $tmp ["state"] = $row ["state"];
             $tmp ["zip"] = $row ["zip"];
+            $tmp ["youtubeVideo"] = $row ["youtubeVideo"];
+
+            $tmp['tickets'] = TicketsSoapHandler::getTickets($row ["id"]);
 
             $response ['events'] [] = $tmp;
         }
@@ -88,7 +92,7 @@ class ClientEcho
     {
         $response ["success"] = TRUE;
         foreach ($result as $row) {
-            $response ['cities'] [] = $row ["city"];;
+            $response ['cities'] [] = $row ["city"];
         }
         return $response;
     }

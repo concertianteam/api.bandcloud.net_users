@@ -22,8 +22,9 @@ class DbHandler
     public function getAllEvents($page, $results)
     {
         $offset = $page * $results;
-        $STH = $this->connection->prepare("SELECT idEvents as id, v.idVenues as venueId, e.name as eventName, date, time, e.visible, e.details, e.entry,
-            v.name as venueName,  v.email as venueEmail,v.urlPhoto, a.address_1, a.city, a.state, a.zip
+        $STH = $this->connection->prepare("SELECT idEvents as id, v.idVenues as venueId, e.name as eventName, date, time,
+            e.visible, e.details, e.entry, e.imgUrl, youtubeVideo, v.name as venueName,  v.email as venueEmail,v.urlPhoto, a.address_1,
+            a.city, a.state, a.zip
             FROM Events e
             INNER JOIN Venues v
             ON e.idVenue = v.idVenues
@@ -45,8 +46,9 @@ class DbHandler
     public function getAllVenueEvents($idVenue, $page, $results)
     {
         $offset = $page * $results;
-        $STH = $this->connection->prepare("SELECT idEvents as id, v.idVenues as venueId, e.name as eventName, date, time, e.visible, e.details, e.entry,
-            v.name as venueName, v.email as venueEmail, v.urlPhoto, a.address_1, a.city, a.state, a.zip
+        $STH = $this->connection->prepare("SELECT idEvents as id, v.idVenues as venueId, e.name as eventName, date, time,
+            e.visible, e.details, e.entry, e.imgUrl, youtubeVideo, v.name as venueName, v.email as venueEmail, v.urlPhoto, a.address_1,
+            a.city, a.state, a.zip
             FROM Events e
             INNER JOIN Venues v
             ON e.idVenue = v.idVenues
@@ -70,8 +72,8 @@ class DbHandler
     public function getMostViewedEvents($page, $results)
     {
         $offset = $page * $results;
-        $STH = $this->connection->prepare("SELECT idEvents as id, e.name as eventName, date, time,e.visible, e.details, e.entry, v.name as venueName,
-            v.email as venueEmail, v.urlPhoto, a.address_1, a.city, a.state, a.zip
+        $STH = $this->connection->prepare("SELECT idEvents as id, e.name as eventName, date, time,e.visible, e.details,
+            e.entry, e.imgUrl, v.name as venueName, v.email as venueEmail, v.urlPhoto, a.address_1, a.city, a.state, a.zip
             FROM Events e
             INNER JOIN Venues v
             ON e.idVenue = v.idVenues
@@ -92,8 +94,9 @@ class DbHandler
     public function getCityEvents($city, $page, $results)
     {
         $offset = $page * $results;
-        $STH = $this->connection->prepare("SELECT idEvents as id, v.idVenues as venueId, e.name as eventName, date, time,e.visible, e.details, e.entry,
-            v.name as venueName,  v.email as venueEmail, v.urlPhoto, a.address_1, a.city, a.state, a.zip
+        $STH = $this->connection->prepare("SELECT idEvents as id, v.idVenues as venueId, e.name as eventName, date, time,
+            e.visible, e.details, e.entry, e.imgUrl, youtubeVideo, v.name as venueName,  v.email as venueEmail, v.urlPhoto, a.address_1,
+            a.city, a.state, a.zip
             FROM Events e
             INNER JOIN Venues v
             ON e.idVenue = v.idVenues
@@ -124,8 +127,14 @@ class DbHandler
 
     public function getSingleEvent($idEvent)
     {
-        $STH = $this->connection->prepare("SELECT idEvents as id, e.name as eventName, date, time, v.name as venueName,e.visible, e.details, e.entry,
-            v.email as venueEmail, v.urlPhoto, a.address_1, a.city, a.state, a.zip
+        $STH = $this->connection->prepare("INSERT INTO ViewCounter(idEvent)
+				VALUES(:idEvent);");
+        $STH->bindParam(':idEvent', $idEvent);
+        $STH->execute();
+
+        $STH = $this->connection->prepare("SELECT idEvents as id, v.idVenues as venueId, e.name as eventName, date, time,
+            e.visible, e.details, e.entry, e.imgUrl, youtubeVideo, v.name as venueName,  v.email as venueEmail,v.urlPhoto, a.address_1,
+            a.city, a.state, a.zip
             FROM Events e
             INNER JOIN Venues v
             ON e.idVenue = v.idVenues
