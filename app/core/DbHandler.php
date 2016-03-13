@@ -69,6 +69,28 @@ class DbHandler
         return $events;
     }
 
+    public function getAllDomainEvents($domain)
+    {
+        $STH = $this->connection->prepare("SELECT idEvents as id, v.idVenues as venueId, e.name as eventName, date, time,
+            e.visible, e.details, e.entry, e.imgUrl, youtubeVideo, v.name as venueName, v.email as venueEmail, v.urlPhoto, a.address_1,
+            a.city, a.state, a.zip
+            FROM Events e
+            INNER JOIN Venues v
+            ON e.idVenue = v.idVenues
+            INNER JOIN Address a
+            ON a.idAddress = v.idAddress
+            WHERE visible = 1
+            AND v.domain = :domain
+            AND date >= CURDATE()
+            ORDER BY date, time;");
+        $STH->bindValue(':domain', $domain);
+
+        $STH->execute();
+        $events = $STH->fetchAll();
+
+        return $events;
+    }
+
     public function getMostViewedEvents($page, $results)
     {
         $offset = $page * $results;

@@ -88,6 +88,27 @@ $app->post('/events/venue', function () use ($app) {
     ClientEcho::buildResponse($result, EVENT);
 });
 
+/**
+ * Listing all venue events by domain
+ * url - /events
+ * method - GET
+ */
+$app->post('/events/domain', function () use ($app) {
+    $validation = new Validation ();
+    $validation->verifyRequiredParams(array(
+        'domain'
+    ));
+    // reading post params
+    $domain = $app->request->post('domain');
+
+    $dbHandler = new DbHandler ();
+
+    // fetching all events
+    $result = $dbHandler->getAllDomainEvents($domain);
+
+    ClientEcho::buildResponse($result, EVENT);
+});
+
 
 /**
  * Listing all most viewed events
